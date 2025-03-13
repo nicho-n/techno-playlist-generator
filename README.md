@@ -1,7 +1,7 @@
+<img src="example.png" alt="A continuously generated Spotify playlist from FluxFM Sound of Berlin" width="225px"/>
+
 # Overview
 Scrapes some of my favorite techno stations in a polite way to create a list of songs I missed. 
-
-<img src="example.png" alt="A continuously generated Spotify playlist from FluxFM Sound of Berlin" width="200px"/>
 
 One script creates the text file, the other uploads the songs to a spotify playlist. 
 
