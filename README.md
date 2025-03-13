@@ -1,4 +1,4 @@
-<img src="example.png" alt="A continuously generated Spotify playlist from FluxFM Sound of Berlin" width="225px"/>
+<img src="example.png" alt="A continuously generated Spotify playlist from FluxFM Sound of Berlin" width="225px" margin-left="200px"/>
 
 # Overview
 Scrapes some of my favorite techno stations in a polite way to create a list of songs I missed. 
