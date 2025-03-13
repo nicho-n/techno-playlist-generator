@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Spotify API credentials from environment variables
-CLIENT_ID = 'd607dbb1455e4911864f1434c83443d2'
+CLIENT_ID = ''
 CLIENT_SECRET = ''
 REDIRECT_URI = 'https://127.0.0.1'
 SCOPE = "playlist-modify-public playlist-modify-private user-library-read"
