@@ -1,7 +1,5 @@
-<h1>Overview</h1> 
-Scrapes some of my favorite techno stations in a polite way to create a list of songs I missed. 
-
-One script creates the text file, the other uploads the songs to a spotify playlist. 
+<h1>Overview</h1>
+One script listens to the radio and writes the songs to a file, the other uploads the songs to a spotify playlist. 
 
 Turn both scripts on and they will continuously upload new techno songs to a spotify playlist. 
 
