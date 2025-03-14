@@ -9,15 +9,36 @@ from datetime import datetime
 # Load environment variables
 load_dotenv()
 
-# Spotify API credentials from environment variables
-CLIENT_ID = "d607dbb1455e4911864f1434c83443d2"
-CLIENT_SECRET = "3a46148a3f5d476ca39378a638f8a5d0"
-REFRESH_TOKEN = "AQDqEqxDG9MJslHemZWRPyGaMb9JLr6i25uqK07jDHZRnPMV4nzAMyn6cPnfEb6vu1PJLIbTcIzcig5FE5-XirNKygY-qJDlcnMAg3QKJffSxBu7ntZmLkm5Vlrc6PRjzgs"
+# Read static credentials from files
+def read_file(file_path):
+    try:
+        with open(file_path, "r") as file:
+            return file.read().strip()
+    except FileNotFoundError:
+        raise Exception(f"Missing required file: {file_path}")
+
+ACCESS_TOKEN_FILE = "access_token.txt"
+CLIENT_ID = read_file("client_id.txt")
+CLIENT_SECRET = read_file("client_secret.txt")
+REFRESH_TOKEN = read_file(ACCESS_TOKEN_FILE)
 TOKEN_URL = "https://accounts.spotify.com/api/token"
 PLAYLIST_ID = "3Oof1Q9vwZpJrj0L9ohkOc"
 
 # API URL for the current track
 FLUX_URL = "https://fluxmusic.api.radiosphere.io/channels/c7d49649-081e-4790-adda-99d8e22b19a5/current-track"
+
+# Function to read the access token from file
+def read_access_token():
+    try:
+        with open(ACCESS_TOKEN_FILE, "r") as file:
+            return file.read().strip()
+    except FileNotFoundError:
+        return None
+
+# Function to save the access token to file
+def save_access_token(token):
+    with open(ACCESS_TOKEN_FILE, "w") as file:
+        file.write(token)
 
 # Function to refresh the Spotify access token
 def refresh_access_token():
@@ -25,14 +46,16 @@ def refresh_access_token():
         TOKEN_URL,
         data={
             "grant_type": "refresh_token",
-            "refresh_token": REFRESH_TOKEN,
+            "refresh_token": read_access_token(),
             "client_id": CLIENT_ID,
             "client_secret": CLIENT_SECRET,
         },
         headers={"Content-Type": "application/x-www-form-urlencoded"},
     )
     if response.status_code == 200:
-        return response.json()["access_token"]
+        new_token = response.json()["access_token"]
+        save_access_token(new_token)
+        return new_token
     else:
         raise Exception(f"Failed to refresh token: {response.json()}")
 
@@ -42,7 +65,6 @@ def get_spotify_client():
     return spotipy.Spotify(auth=access_token)
 
 # Function to get the current song from Flux
-
 def get_current_song():
     current_time = int(time.time() * 1000)
     response = requests.get(FLUX_URL, params={"time": current_time})
